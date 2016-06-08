@@ -4,6 +4,7 @@
   "description": "socket io example project",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jay Patel",

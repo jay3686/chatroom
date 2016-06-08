@@ -8,13 +8,13 @@ app.use(express.static('public'));
 var server = http.Server(app);
 var io = socket_io(server);
 
-io.on('connection', function (socket) {
-    console.log('Client connected');
+io.on('connection', (socket) => {
+  console.log('Client connected');
 
-    socket.on('message', function(message) {
-        console.log('Received message:', message);
-        socket.broadcast.emit('message', message);
-    });
+  socket.on('message', (message) => {
+    console.log('Received message:', message);
+    socket.broadcast.emit('message', message);
+  });
 });
 
 
