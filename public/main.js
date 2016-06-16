@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
   var socket = io();
   var input = $('input');
@@ -26,6 +27,4 @@ $(document).ready(function () {
   socket.on('message', addMessage);
   socket.on('totalCount', updateConnectedCount);
 
-  // set initial total count
-  totalCount.text(socket.subs.length);
 });
