@@ -1,3 +1,5 @@
+'use strict';
+
 var socket_io = require('socket.io');
 var http = require('http');
 var express = require('express');
@@ -10,6 +12,7 @@ var server = http.Server(app);
 var io = socket_io(server);
 
 var users = {};
+var typers = {};
 
 function usernameTaken(username) {
   return Object.keys(users).some((key) => users[key].username === username);
@@ -68,12 +71,26 @@ io.on('connection', (socket) => {
       socket.broadcast.emit('message', `${users[socket.id].username}: ${message}`);
     }
   });
-  socket.on('disconnect', (message) => {
+  
+  socket.on('disconnect', () => {
     console.log('This guy peaced out.:', users[socket.id].username);
     socket.broadcast.emit('message', `User Left! ${users[socket.id].username}`);
     socket.broadcast.emit('totalCount', --totalCount);
     // TODO: rethink below if we have persistent users
     delete users[socket.id];
+    delete typers[socket.id];
+  });
+  
+  socket.on('isTyping', (typing) => {
+    if (typing === false) {
+      delete typers[socket.id];
+    } else {
+      typers[socket.id] = true;
+    }
+
+    const typingUsers = Object.keys(typers).map((key) => (users[key].username));
+    console.log('Is typing:', typingUsers);
+    socket.broadcast.emit('isTyping', typingUsers);
   });
 });
 
