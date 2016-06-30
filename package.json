@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.4",
+    "observable-set": "0.0.5",
     "socket.io": "^1.4.6"
   },
   "devDependencies": {
